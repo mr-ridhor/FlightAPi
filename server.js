@@ -1,14 +1,18 @@
-
 const express = require('express');
-const flightRoutes = require('./router/flightRoutes');
-// require('dotenv').config();
 const app = express();
-const PORT = process.env.PORT || 8000;
+const port = 8000; // Choose a suitable port
 
-app.use(express.json());
-app.use('/', flightRoutes);
+// Load environment variables from .env file
+require('dotenv').config();
+app.use(express.json())
+// ... Other middleware and configurations ...
+app.get('/',(req,res)=>{
+    res.send("Hello")
+})
+// Include your routes
+const flightRoutes = require('./routes/flightRoute');
+app.use('/api', flightRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server connected to port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
-

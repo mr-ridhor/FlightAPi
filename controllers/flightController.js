@@ -1,14 +1,10 @@
 const axios = require('axios');
-const apiUtils = require('../Utils/apiUtils');
-require('dotenv').config();
 
-const FLIGHT_API_KEY = process.env.FLIGHT_API_KEY;
+const fetchFlightData = async (req, res) => {
+  const { from, to, date, adult} = req.body;
 
-const getFlightFare = async (req, res) => {
-  const { from, to, date, adult } = req.query;
-
-  if (!from || !to || !date || !adult) {
-    return apiUtils.sendError(res, 400, 'Missing required parameters');
+  if (!from || !to || !date || !adult ) {
+    return res.status(400).json({ error: 'Please provide valid search parameters.' });
   }
 
   const options = {
@@ -18,23 +14,23 @@ const getFlightFare = async (req, res) => {
       from,
       to,
       date,
-      adult,
+      adult
     },
     headers: {
-      'X-RapidAPI-Key': FLIGHT_API_KEY ,
-      'X-RapidAPI-Host': 'flight-fare-search.p.rapidapi.com',
-    },
+      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
+      'X-RapidAPI-Host': 'flight-fare-search.p.rapidapi.com'
+    }
   };
 
   try {
     const response = await axios.request(options);
-    apiUtils.sendSuccess(res, response.data);
+    res.json(response.data);
   } catch (error) {
-    apiUtils.sendError(res, 500, 'An error occurred');
-    console.log(error)
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching flight data.' });
   }
 };
 
 module.exports = {
-  getFlightFare,
+  fetchFlightData
 };
