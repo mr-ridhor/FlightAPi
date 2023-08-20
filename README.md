@@ -118,7 +118,7 @@ Set Environment Variables: Create a .env file in the root directory with the fol
 makefile
 Copy code
 RAPIDAPI_KEY=your_rapidapi_key_here
-PORT=3000  (or your desired port)
+PORT=8000  (or your desired port)
 Start the Server: Run node your_script_name.js to start the Express server.
 
 Make API Requests: Use your preferred tool (e.g., cURL, Postman, or frontend code) to send POST requests to the /api/search endpoint with the required parameters in the request body.
